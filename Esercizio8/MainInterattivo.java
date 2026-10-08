@@ -7,32 +7,57 @@ public class MainInterattivo {
         Sveglia[] listaSveglie = new Sveglia[10];
         Scanner scan = new Scanner(System.in);
         int quante = 0;
-        char altraSveglia = 's';
+        String altraSveglia = "s";
+        boolean corretto;
 
-        while (altraSveglia == 's' && quante < listaSveglie.length) {
-            listaSveglie[quante] = new Sveglia(0, 0);
+        while (altraSveglia.equals("s") && quante < listaSveglie.length) {
+            int ora, minuti;
+            String stringaTemp = "";
 
-            System.out.print("Inserisci l'ora: ");
-            listaSveglie[quante].setOra(scan.nextInt());
-            System.out.print("Inserisci i minuti: ");
-            listaSveglie[quante].setMinuti(scan.nextInt());
+            corretto = false;                               // Per entrare nel ciclo
+            while (!corretto) {                             // Il ciclo continua fino a quando stringaTemp non è corretta (solo numeri)
+                System.out.print("Inserisci l'ora: ");
+                stringaTemp = scan.nextLine();
+                corretto = true;
+                for (int i = 0; i < stringaTemp.length() && corretto; i++) {            // Cicla nella stringa
+                    if (stringaTemp.charAt(i) < '0' || stringaTemp.charAt(i) > '9') {   // Se il carattere non è un numero
+                        corretto = false;                                               // segnala che la stringa è errata, uscendo dal ciclo,
+                        System.out.print("ERRORE - ");                                  // e stampa ERRORE
+                    }
+                }
+            }
+            ora = Integer.parseInt(stringaTemp);
+
+            corretto = false;
+            while (!corretto) {
+                System.out.print("Inserisci i minuti: ");
+                stringaTemp = scan.nextLine();
+                corretto = true;
+                for (int i = 0; i < stringaTemp.length() && corretto; i++) {
+                    if (stringaTemp.charAt(i) < '0' || stringaTemp.charAt(i) > '9') {
+                        corretto = false;
+                        System.out.print("ERRORE - ");
+                    }
+                }
+            }
+            minuti = Integer.parseInt(stringaTemp);
+
             System.out.print("Inserisci l'etichetta: ");
-            scan.nextLine();
             String etichettaInserita = scan.nextLine();
             if (etichettaInserita.equals("")) {
-                listaSveglie[quante].setEtichetta("Senza etichetta");
+                listaSveglie[quante] = new Sveglia(ora, minuti);
             } else {
-                listaSveglie[quante].setEtichetta(etichettaInserita);
+                listaSveglie[quante] = new Sveglia(ora, minuti, etichettaInserita);
             }
-
+            System.out.println(listaSveglie[quante]);
             quante++;
 
             System.out.print("Un' altra? (s/n): ");
-            String altraSvegliaBis = scan.nextLine();
-            altraSveglia = altraSvegliaBis.charAt(0);
+            altraSveglia = scan.nextLine();
         }
-        int scelta = 0;
+        int scelta;
         do {
+            corretto = true;
             System.out.println("\n===== MENU =============");
             System.out.println("1) Stampa tutte le sveglie");
             System.out.println("2) Cerca per etichetta");
@@ -43,7 +68,14 @@ public class MainInterattivo {
             System.out.println("========================");
 
             System.out.print("\nInserisci la tua scelta: ");
-            scelta = scan.nextInt();
+            String stringaTemp = scan.nextLine();
+            for (int i = 0; i < stringaTemp.length() && corretto; i++) {
+                if (stringaTemp.charAt(i) < '0' || stringaTemp.charAt(i) > '9') {
+                    corretto = false;
+                }
+            }
+            if (corretto) {scelta = Integer.parseInt(stringaTemp);}
+            else {scelta = -1;}
             System.out.println();
 
             switch (scelta) {
@@ -57,7 +89,6 @@ public class MainInterattivo {
                     break;
                 case 2:
                     System.out.print("Etichetta che vuoi cercare: ");
-                    scan.nextLine();
                     String etichetteRichiesta = scan.nextLine();
 
                     int contaSveglie = 0;
@@ -72,17 +103,52 @@ public class MainInterattivo {
                     }
                     break;
                 case 3:
-                    System.out.print("Numero della sveglia: ");
-                    int numeroRichiesto = scan.nextInt();
+                    corretto = false;
+                    while (!corretto) {
+                        System.out.print("Numero della sveglia: ");
+                        stringaTemp = scan.nextLine();
+                        corretto = true;
+                        for (int i = 0; i < stringaTemp.length() && corretto; i++) {
+                            if (stringaTemp.charAt(i) < '0' || stringaTemp.charAt(i) > '9') {
+                                corretto = false;
+                                System.out.print("ERRORE - ");
+                            }
+                        }
+                    }
+                    int numeroRichiesto = Integer.parseInt(stringaTemp);
+
                     if (numeroRichiesto > 0 && numeroRichiesto <= quante) {
                         Sveglia svegliaCopia = new Sveglia(listaSveglie[numeroRichiesto - 1].getOra(), listaSveglie[numeroRichiesto - 1].getMinuti(), listaSveglie[numeroRichiesto - 1].getEtichetta());
 
-                        System.out.print("Inserisci l'ora: ");
-                        listaSveglie[numeroRichiesto - 1].setOra(scan.nextInt());
-                        System.out.print("Inserisci i minuti: ");
-                        listaSveglie[numeroRichiesto - 1].setMinuti(scan.nextInt());
+                        corretto = false;
+                        while (!corretto) {
+                            System.out.print("Inserisci l'ora: ");
+                            stringaTemp = scan.nextLine();
+                            corretto = true;
+                            for (int i = 0; i < stringaTemp.length() && corretto; i++) {
+                                if (stringaTemp.charAt(i) < '0' || stringaTemp.charAt(i) > '9') {
+                                    corretto = false;
+                                    System.out.print("ERRORE - ");
+                                }
+                            }
+                        }
+                        listaSveglie[numeroRichiesto - 1].setOra(Integer.parseInt(stringaTemp));
+
+                        corretto = false;
+                        while (!corretto) {
+                            System.out.print("Inserisci i minuti: ");
+                            stringaTemp = scan.nextLine();
+                            corretto = true;
+                            for (int i = 0; i < stringaTemp.length() && corretto; i++) {
+                                if (stringaTemp.charAt(i) < '0' || stringaTemp.charAt(i) > '9') {
+                                    corretto = false;
+                                    System.out.print("ERRORE - ");
+                                }
+                            }
+                        }
+                        listaSveglie[numeroRichiesto - 1].setMinuti(Integer.parseInt(stringaTemp));
+
                         System.out.print("Inserisci l'etichetta: ");
-                        scan.nextLine();
                         String etichettaInserita = scan.nextLine();
                         if (!etichettaInserita.equals("")) {
                             listaSveglie[numeroRichiesto - 1].setEtichetta(etichettaInserita);
@@ -96,12 +162,23 @@ public class MainInterattivo {
                     }
                     break;
                 case 4:
-                    System.out.print("Numero della sveglia: ");
-                    int svegliaRichiesta = scan.nextInt();
+                    corretto = false;
+                    while (!corretto) {
+                        System.out.print("Numero della sveglia: ");
+                        stringaTemp = scan.nextLine();
+                        corretto = true;
+                        for (int i = 0; i < stringaTemp.length() && corretto; i++) {
+                            if (stringaTemp.charAt(i) < '0' || stringaTemp.charAt(i) > '9') {
+                                corretto = false;
+                                System.out.print("ERRORE - ");
+                            }
+                        }
+                    }
+                    int svegliaRichiesta = Integer.parseInt(stringaTemp);
+
                     if (svegliaRichiesta > 0 && svegliaRichiesta <= quante) {
                         Sveglia svegliaBis = new Sveglia(listaSveglie[svegliaRichiesta - 1].getOra(), listaSveglie[svegliaRichiesta - 1].getMinuti(), listaSveglie[svegliaRichiesta - 1].getEtichetta());
                         System.out.print("Inserisci i minuti: ");
-                        scan.nextLine();
                         String minutiTemp = scan.nextLine();
                         if (minutiTemp.equals("")) {
                             listaSveglie[svegliaRichiesta - 1].posticipa();
@@ -119,16 +196,43 @@ public class MainInterattivo {
                     break;
                 case 5:
                     System.out.println("Che ore sono?");
-                    System.out.print("Ora: ");
-                    int oraAttuale = scan.nextInt();
-                    System.out.print("Minuti: ");
-                    int minutoAttuale = scan.nextInt();
+
+                    corretto = false;
+                    while (!corretto) {
+                        System.out.print("Ora: ");
+                        stringaTemp = scan.nextLine();
+                        corretto = true;
+                        for (int i = 0; i < stringaTemp.length() && corretto; i++) {
+                            if (stringaTemp.charAt(i) < '0' || stringaTemp.charAt(i) > '9') {
+                                corretto = false;
+                                System.out.print("ERRORE - ");
+                            }
+                        }
+                    }
+                    int oraAttuale = Integer.parseInt(stringaTemp);
+
+                    corretto = false;
+                    while (!corretto) {
+                        System.out.print("Minuti: ");
+                        stringaTemp = scan.nextLine();
+                        corretto = true;
+                        for (int i = 0; i < stringaTemp.length() && corretto; i++) {
+                            if (stringaTemp.charAt(i) < '0' || stringaTemp.charAt(i) > '9') {
+                                corretto = false;
+                                System.out.print("ERRORE - ");
+                            }
+                        }
+                    }
+                    int minutoAttuale = Integer.parseInt(stringaTemp);
 
                     for (int i = 0; i < quante; i++) {
                         if (listaSveglie[i].getOra() == oraAttuale &&  listaSveglie[i].getMinuti() == minutoAttuale) {
                             listaSveglie[i].suona();
                         }
                     }
+                    break;
+                default:
+                    System.out.println("Comando errato");
             }
 
         } while (scelta != 0);
