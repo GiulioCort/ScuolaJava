@@ -79,15 +79,15 @@ public class MainInterattivo {
             System.out.println();
 
             switch (scelta) {
-                case 0:
+                case 0 -> {
                     System.out.println("Uscita dal programma...");
-                    break;
-                case 1:
+                }
+                case 1 -> {
                     for (int i = 0; i < quante; i++) {
                         System.out.println(i + 1 + " - " + listaSveglie[i]);
                     }
-                    break;
-                case 2:
+                }
+                case 2 -> {
                     System.out.print("Etichetta che vuoi cercare: ");
                     String etichetteRichiesta = scan.nextLine();
 
@@ -95,14 +95,14 @@ public class MainInterattivo {
                     for (int i = 0; i < quante; i++) {
                         if (listaSveglie[i].getEtichetta().equals(etichetteRichiesta)) {
                             System.out.println(i + 1 + " - " + listaSveglie[i]);
-                            contaSveglie++;
+                            contaSveglie++;             // Contatore per verificare che esistano delle etichette con quella etichetta
                         }
                     }
                     if (contaSveglie == 0) {
                         System.out.println("Non ci sono sveglie con questa etichetta");
                     }
-                    break;
-                case 3:
+                }
+                case 3 -> {
                     corretto = false;
                     while (!corretto) {
                         System.out.print("Numero della sveglia: ");
@@ -156,12 +156,11 @@ public class MainInterattivo {
 
                         System.out.println("Prima --> " + svegliaCopia);
                         System.out.println("Dopo --> " + listaSveglie[numeroRichiesto - 1]);
-                    }
-                    else {
+                    } else {
                         System.out.println("ERRORE, la sveglia " + numeroRichiesto + " non esiste");
                     }
-                    break;
-                case 4:
+                }
+                case 4 -> {
                     corretto = false;
                     while (!corretto) {
                         System.out.print("Numero della sveglia: ");
@@ -189,12 +188,12 @@ public class MainInterattivo {
 
                         System.out.println("Prima --> " + svegliaBis);
                         System.out.println("Dopo --> " + listaSveglie[svegliaRichiesta - 1]);
-                    }
-                    else {
+                    } else {
                         System.out.println("ERRORE, la sveglia " + svegliaRichiesta + " non esiste");
                     }
                     break;
-                case 5:
+                }
+                case 5 -> {
                     System.out.println("Che ore sono?");
 
                     corretto = false;
@@ -226,13 +225,14 @@ public class MainInterattivo {
                     int minutoAttuale = Integer.parseInt(stringaTemp);
 
                     for (int i = 0; i < quante; i++) {
-                        if (listaSveglie[i].getOra() == oraAttuale &&  listaSveglie[i].getMinuti() == minutoAttuale) {
+                        if (listaSveglie[i].getOra() == oraAttuale && listaSveglie[i].getMinuti() == minutoAttuale) {
                             listaSveglie[i].suona();
                         }
                     }
-                    break;
-                default:
+                }
+                default -> {
                     System.out.println("Comando errato");
+                }
             }
 
         } while (scelta != 0);
