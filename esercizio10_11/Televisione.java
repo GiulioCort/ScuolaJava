@@ -1,4 +1,4 @@
-package esercizio10;
+package esercizio10_11;
 
 public class Televisione {
     private String marca;
