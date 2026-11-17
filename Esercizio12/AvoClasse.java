@@ -2,6 +2,7 @@ package Esercizio12;
 
 public class AvoClasse {
     private final int MAX = 30;
+
     private int numeroStudenti;
     private Studente[] listaStudenti;
     private String classe;
