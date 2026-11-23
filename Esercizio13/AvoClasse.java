@@ -16,7 +16,7 @@ public class AvoClasse {
     public AvoClasse() {
         this.numeroStudenti = 0;
         this.classe = "";
-        this.listaStudenti = new Studente[MAX];     // La riga serve --> Cannot store to object array because "this.listaStudenti" is null
+        this.listaStudenti = new Studente[MAX];
         for (int i = 0; i < MAX; i++) {
             this.listaStudenti[i] = new Studente();
         }
@@ -66,5 +66,32 @@ public class AvoClasse {
             }
         }
         return rit;
+    }
+
+    public void inserimento(Studente nuovoStudente) {
+        if (numeroStudenti < MAX) {
+            this.listaStudenti[numeroStudenti] = new Studente(nuovoStudente);
+            this.numeroStudenti++;
+        }
+    }
+
+    public int ricerca(Studente studenteCercato) {
+        int rit = -1;
+        for (int i = 0; i < numeroStudenti; i++) {
+            if (this.listaStudenti[i].equals(studenteCercato)) {rit = i;}
+        }
+
+        return rit;
+    }
+
+    public void eliminazione(Studente studenteRichiesto) {
+        int indiceRichiesto = ricerca(studenteRichiesto);
+
+        numeroStudenti--;
+        for (int i = indiceRichiesto; i < numeroStudenti; i++) {
+            listaStudenti[i] = listaStudenti[i + 1];
+        }
+        listaStudenti[numeroStudenti] = null;
+
     }
 }
