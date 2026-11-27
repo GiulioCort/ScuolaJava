@@ -1,7 +1,8 @@
 package Esercizio13;
 
 public class AvoClasse {
-    private final int MAX = 30;
+    private static final int MAX = 30;
+    private final int MIN  = 0;
 
     private int numeroStudenti;
     private Studente[] listaStudenti;
@@ -25,6 +26,7 @@ public class AvoClasse {
     public AvoClasse(AvoClasse altra) {
         this.numeroStudenti = altra.numeroStudenti;
         this.classe = altra.classe;
+        this.listaStudenti = new Studente[MAX];
         for (int i = 0; i < MAX; i++) {
             this.listaStudenti[i] = new Studente(altra.listaStudenti[i]);
         }
@@ -45,7 +47,7 @@ public class AvoClasse {
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         String temp = classe + " --> " + numeroStudenti + " studenti: ";
 
         for (int i = 0; i < numeroStudenti; i++) {
@@ -68,30 +70,37 @@ public class AvoClasse {
         return rit;
     }
 
-    public void inserimento(Studente nuovoStudente) {
+    public boolean inserimento(Studente nuovoStudente) {
+        boolean rit = false;
         if (numeroStudenti < MAX) {
-            this.listaStudenti[numeroStudenti] = new Studente(nuovoStudente);
+            this.listaStudenti[numeroStudenti] = nuovoStudente;
             this.numeroStudenti++;
+            rit = true;
         }
+        return rit;
     }
 
     public int ricerca(Studente studenteCercato) {
         int rit = -1;
-        for (int i = 0; i < numeroStudenti; i++) {
+        for (int i = 0; i < numeroStudenti && rit == -1; i++) {
             if (this.listaStudenti[i].equals(studenteCercato)) {rit = i;}
         }
 
         return rit;
     }
 
-    public void eliminazione(Studente studenteRichiesto) {
+    public boolean eliminazione(Studente studenteRichiesto) {
+        boolean rit = true;
         int indiceRichiesto = ricerca(studenteRichiesto);
-
-        numeroStudenti--;
-        for (int i = indiceRichiesto; i < numeroStudenti; i++) {
-            listaStudenti[i] = listaStudenti[i + 1];
+        if (indiceRichiesto == -1) {rit = false;}
+        else {
+            numeroStudenti--;
+            for (int i = indiceRichiesto; i < numeroStudenti; i++) {
+                listaStudenti[i] = listaStudenti[i + 1];
+            }
+            listaStudenti[numeroStudenti] = null;
         }
-        listaStudenti[numeroStudenti] = null;
 
+        return rit;
     }
 }
